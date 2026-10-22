@@ -1,7 +1,9 @@
 """Original synthesized soundtrack for NM reels: warm piano-pad chords, soft pulse,
 whooshes on scene wipes, a low 'hit' on the hook. Usage:
-  python3 soundtrack.py OUT.wav DURATION BOUNDARY1,BOUNDARY2,...
+  python3 soundtrack.py OUT.wav DURATION BOUNDARY1,BOUNDARY2,... [CUES.json]
+CUES.json: [{"t":seconds,"k":"pop|impact|thud|swoosh|zip|tick|shimmer|riser|chime|wipe"}]
 """
+import json
 import sys, numpy as np
 from scipy.signal import butter, sosfilt
 from scipy.io import wavfile
@@ -9,6 +11,7 @@ from scipy.io import wavfile
 SR = 48000
 out, dur = sys.argv[1], float(sys.argv[2])
 bounds = [float(x) for x in sys.argv[3].split(',')] if len(sys.argv) > 3 and sys.argv[3] else []
+cues = json.load(open(sys.argv[4])) if len(sys.argv) > 4 else [{'t':0.42,'k':'impact'}]+[{'t':b,'k':'wipe'} for b in bounds]
 N = int(SR * dur)
 t = np.arange(N) / SR
 mix = np.zeros((N, 2))
@@ -60,7 +63,7 @@ while st < dur:
 # soft pulse: kick on 1 and 3, shaker on 8ths, starts after hook
 for i in range(int(dur / beat) + 1):
     s0 = i * beat
-    if s0 < 2.9: continue
+    if s0 < (bounds[0] - 0.1 if bounds else 2.9): continue
     if i % 2 == 0:
         n = int(0.25 * SR); tt = np.arange(n) / SR
         kick = np.sin(2 * np.pi * (50 + 90 * np.exp(-tt * 30)) * tt) * np.exp(-tt * 14)
@@ -68,24 +71,67 @@ for i in range(int(dur / beat) + 1):
     n = int(0.06 * SR); hh = bp(rng.standard_normal(n), 6000, 12000) * np.exp(-np.arange(n) / SR * 60)
     add(hh, s0, 0.05, pan=0.4); add(hh, s0 + beat / 2, 0.035, pan=-0.4)
 
-# hook impact at t=0.3 (when big word lands) — sub boom + noise burst
-n = int(1.6 * SR); tt = np.arange(n) / SR
-boom = np.sin(2 * np.pi * (40 + 60 * np.exp(-tt * 8)) * tt) * np.exp(-tt * 3)
-add(boom, 0.30, 0.55)
-nb = lp(rng.standard_normal(int(0.5 * SR)), 2500) * np.exp(-np.arange(int(0.5 * SR)) / SR * 9)
-add(nb, 0.30, 0.12)
+# ---------- motion SFX driven by cues ----------
+def noise(n): return rng.standard_normal(n)
+def sweep_noise(n, f0, f1, q=0.5):
+    x = noise(n); y = np.zeros(n); seg = 1024
+    for k0 in range(0, n, seg):
+        r = k0 / max(1, n); fc = f0 * (f1 / f0) ** r
+        y[k0:k0+seg] = bp(x[k0:k0+seg], max(60, fc*(1-q)), min(SR/2-100, fc*(1+q)))
+    return y
+def bell(f, d, decay):
+    n = int(d*SR); tt = np.arange(n)/SR
+    return (np.sin(2*np.pi*f*tt) + 0.4*np.sin(2*np.pi*2.76*f*tt) + 0.2*np.sin(2*np.pi*5.4*f*tt)) * np.exp(-tt*decay)
 
-# whooshes centred on each wipe
-for b0 in bounds:
-    n = int(0.9 * SR); tt = np.arange(n) / SR
-    noise = rng.standard_normal(n)
-    w = np.zeros(n); seg = 2048
-    for s in range(0, n, seg):
-        x = s / n; fc = 300 + 5000 * np.sin(np.pi * x) ** 2
-        w[s:s + seg] = bp(noise[s:s + seg], max(100, fc * 0.6), min(20000, fc * 1.4))
-    w *= np.sin(np.pi * tt / tt[-1]) ** 2
-    for c, pan in ((w, -0.6), (np.roll(w, 400), 0.6)):
-        add(c, b0 - 0.45, 0.22, pan=pan)
+def sfx(k):
+    if k == 'pop':
+        n = int(0.12*SR); tt = np.arange(n)/SR
+        return np.sin(2*np.pi*(320 + 900*np.exp(-tt*45))*tt) * np.exp(-tt*38), 0.32
+    if k == 'impact':
+        n = int(1.4*SR); tt = np.arange(n)/SR
+        boom = np.sin(2*np.pi*(38 + 70*np.exp(-tt*9))*tt) * np.exp(-tt*2.8)
+        crack = lp(noise(n), 3500) * np.exp(-tt*16)
+        return boom + 0.35*crack, 0.62
+    if k == 'thud':
+        n = int(0.35*SR); tt = np.arange(n)/SR
+        return np.sin(2*np.pi*(70 + 140*np.exp(-tt*25))*tt) * np.exp(-tt*11) + 0.15*lp(noise(n),1800)*np.exp(-tt*40), 0.42
+    if k == 'swoosh':
+        n = int(0.38*SR); tt = np.arange(n)/SR
+        return sweep_noise(n, 500, 3500, 0.35) * np.sin(np.pi*tt/tt[-1])**2, 0.20
+    if k == 'zip':
+        n = int(0.26*SR); tt = np.arange(n)/SR
+        tone = np.sin(2*np.pi*np.cumsum(900 + 2600*(tt/tt[-1]))/SR) * 0.25
+        return (sweep_noise(n, 2000, 9000, 0.25) + tone) * np.sin(np.pi*tt/tt[-1]), 0.16
+    if k == 'tick':
+        n = int(0.05*SR); tt = np.arange(n)/SR
+        return bp(noise(n), 2500, 7000) * np.exp(-tt*120), 0.22
+    if k == 'shimmer':
+        out_ = np.zeros(int(1.3*SR))
+        for i, m in enumerate([81, 84, 88, 91, 93]):
+            b_ = bell(note(m), 1.0, 5.5); s_ = int(i*0.07*SR); out_[s_:s_+len(b_)] += b_[:len(out_)-s_]
+        return out_, 0.07
+    if k == 'riser':
+        n = int(1.0*SR); tt = np.arange(n)/SR
+        return sweep_noise(n, 300, 6000, 0.3) * (tt/tt[-1])**2 * np.exp(-np.maximum(0, tt-0.9)*30), 0.22
+    if k == 'chime':
+        a_ = bell(note(76), 1.6, 3.2); b_ = bell(note(83), 1.6, 3.2)
+        out_ = np.zeros(len(a_) + int(0.12*SR)); out_[:len(a_)] += a_; out_[int(0.12*SR):] += b_
+        return out_, 0.12
+    if k == 'wipe':
+        n = int(0.9*SR); tt = np.arange(n)/SR
+        w_ = sweep_noise(n, 250, 6500, 0.4) * np.sin(np.pi*tt/tt[-1])**2
+        sub = np.sin(2*np.pi*(55+40*np.exp(-np.maximum(0,tt-0.45)*10))*tt) * np.exp(-np.maximum(0, tt-0.45)*7) * (tt>0.42)
+        return w_ + 0.5*sub, 0.30
+    return np.zeros(10), 0
+
+PAN = {'swoosh': -0.35, 'zip': 0.35, 'tick': 0.25, 'shimmer': 0.2}
+for c in cues:
+    sig, g = sfx(c['k'])
+    off = 0.45 if c['k'] == 'wipe' else 0.0
+    if c['k'] == 'wipe':
+        add(sig, c['t'] - off, g, pan=-0.5); add(np.roll(sig, 500), c['t'] - off, g, pan=0.5)
+    else:
+        add(sig, c['t'], g, pan=PAN.get(c['k'], 0.0))
 
 # master: fade in/out, normalize, gentle saturation
 fade = np.ones(N); fi = int(0.15 * SR); fo = int(1.8 * SR)
