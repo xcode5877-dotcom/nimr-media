@@ -1,0 +1,125 @@
+<!doctype html><meta charset=utf-8>
+<style>
+@font-face{font-family:C;font-weight:600;src:url(cairo-arabic-600-normal.woff2)}
+@font-face{font-family:C;font-weight:800;src:url(cairo-arabic-800-normal.woff2)}
+@font-face{font-family:C;font-weight:900;src:url(cairo-arabic-900-normal.woff2)}
+@font-face{font-family:C;font-weight:600 800;src:url(cairo-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:C;font-weight:900;src:url(cairo-latin-900-normal.woff2);unicode-range:U+0000-00FF}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#070F1F}
+#cam{position:absolute;inset:0;transform-origin:50% 45%}
+#stage{position:absolute;inset:0;font-family:C;direction:rtl;color:#fff;overflow:hidden}
+.sc{position:absolute;inset:0;display:none}
+.a{position:absolute}
+.c{position:absolute;left:60px;right:60px;text-align:center}
+.w{display:inline-block;margin:0 .12em;will-change:transform}
+.dark{background:radial-gradient(ellipse 900px 1300px at 50% 42%,#13294B 0%,#0B1A33 55%,#060D1C 100%)}
+.gold{background:linear-gradient(160deg,#F2D892 0%,#D4AF5A 45%,#B48A3A 100%)}
+.box{display:inline-block;background:#0B1A33;color:#F2D892;padding:0 50px 20px;border-radius:24px}
+.chk{display:flex;align-items:center;gap:36px;justify-content:flex-start;margin:0 0 90px;white-space:nowrap}
+.cb{flex:none;width:96px;height:96px;border:8px solid #D4AF5A;border-radius:22px;position:relative}
+.cb i{position:absolute;right:28px;top:6px;width:26px;height:52px;border:solid #fff;border-width:0 12px 12px 0;transform:rotate(45deg);transform-origin:center}
+#prog{position:absolute;top:0;right:0;height:10px;background:#D4AF5A;z-index:99;box-shadow:0 0 18px rgba(212,175,90,.7)}
+.streak{position:absolute;top:-400px;width:90px;height:2800px;background:linear-gradient(90deg,rgba(255,240,200,0),rgba(255,235,180,.85),rgba(255,240,200,0));transform:rotate(18deg);z-index:60}
+</style>
+<div id=cam><div id=stage>
+
+<!-- S1 hook -->
+<div class="sc dark" id=s1>
+  <div class=a id=s1p style="top:250px;left:465px;width:150px;height:150px"><img src=lawyer.png style="width:150px;height:150px"></div>
+  <div class=c id=s1n style="top:415px;font-size:40px;font-weight:600;color:#C9D2E3">المحامي نمر مصالحة</div>
+  <div class=c style="top:640px;font-size:170px;font-weight:900;line-height:1.15"><span class=w id=h1>أكثر</span><span class=w id=h2>غلطة</span></div>
+  <div class=c style="top:880px;font-size:118px;font-weight:900;line-height:1.2;color:#E9C977"><span class=w id=h3>بشوفها</span><span class=w id=h4>بالمكتب</span></div>
+  <div class=c style="top:1060px;font-size:118px;font-weight:900;line-height:1.2"><span class=w id=h5>بعد</span><span class=w id=h6>حادث</span><span class=w id=h7>طرق…</span></div>
+</div>
+
+<!-- S2 reveal -->
+<div class="sc gold" id=s2>
+  <div class=c style="top:560px;font-size:200px;font-weight:900;color:#0B1A33;line-height:1.1"><span class=w id=r1>إنك</span><span class=w id=r2>توقّع</span></div>
+  <div class=c style="top:840px;font-size:104px;font-weight:900;color:#0B1A33"><span class=w id=r3>مع</span><span class=w id=r4>شركة</span><span class=w id=r5>التأمين</span></div>
+  <div class=c style="top:1060px;font-size:190px;font-weight:900"><span class="w box" id=r6>بسرعة!</span></div>
+</div>
+
+<!-- S3 why -->
+<div class="sc dark" id=s3>
+  <div class=c id=yh style="top:330px;font-size:84px;font-weight:900;color:#E9C977">ليش غلطة؟</div>
+  <div class=c id=y1 style="top:720px;font-size:120px;font-weight:900;line-height:1.25"><div style="font-size:130px;line-height:1.1;color:#E9C977">1</div>العرض بيجي<br>بسرعة</div>
+  <div class=c id=y2 style="top:720px;font-size:112px;font-weight:900;line-height:1.25"><div style="font-size:130px;line-height:1.1;color:#E9C977">2</div>أحيانًا قبل ما<br>تخلص علاجك</div>
+  <div class=c id=y3 style="top:700px;left:30px;right:30px;font-size:86px;font-weight:900;line-height:1.35"><div style="font-size:130px;line-height:1.1;color:#E9C977">3</div>التوقيع ممكن<br>يسكّر الملف<br><span style="color:#E9C977">قبل ما تعرف<br>كل أضرارك</span></div>
+</div>
+
+<!-- S4 do -->
+<div class="sc dark" id=s4>
+  <div class=c id=dh style="top:430px;font-size:130px;font-weight:900;color:#E9C977">شو تعمل؟</div>
+  <div class=a style="top:760px;right:90px;left:40px;font-size:72px;font-weight:900">
+    <div class=chk id=d1><div class=cb><i id=k1></i></div><span>اطلب العرض مكتوب</span></div>
+    <div class=chk id=d2><div class=cb><i id=k2></i></div><span>خذ وقتك تقرأه</span></div>
+    <div class=chk id=d3><div class=cb><i id=k3></i></div><span>افحص ملفك قبل التوقيع</span></div>
+  </div>
+</div>
+
+<!-- S5 CTA -->
+<div class="sc dark" id=s5>
+  <div class=a id=lg style="top:230px;left:390px;width:300px"><img src=nm_mark.png style="width:300px"></div>
+  <div class=a id=halo style="top:390px;left:190px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(233,201,119,.35),rgba(233,201,119,0) 62%)"></div>
+  <div class=a id=ph style="top:460px;left:300px;width:480px;height:480px"><img src=lawyer.png style="width:480px;height:480px"></div>
+  <div class=c id=nm style="top:990px;font-size:88px;font-weight:900;color:#E9C977">المحامي نمر مصالحة</div>
+  <div class=c id=sh style="top:1130px;font-size:52px;font-weight:800">ابعته لحدا بيسوق كل يوم</div>
+  <div class=c id=pl style="top:1260px"><span style="display:inline-block;padding:14px 70px 22px;border-radius:999px;background:linear-gradient(180deg,#F2D892,#D4AF5A 60%,#B48A3A);color:#0B1A33;font-size:84px;font-weight:900;direction:ltr">054-334-5123</span></div>
+  <div class=c id=ds style="top:1500px;font-size:30px;font-weight:600;color:#9EA9BE;line-height:1.6">مكتب محاماة · משרד עורכי דין · دبورية<br>المعلومات عامة ولا تُعتبر استشارة قانونية.</div>
+</div>
+
+<div class=streak id=st style="display:none"></div>
+<div id=prog></div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), p=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3), back=x=>{const c1=2.2,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const S=[['s1',0,3.0],['s2',3.0,6.4],['s3',6.4,12.0],['s4',12.0,17.0],['s5',17.0,21.5]];
+const D=21.5;
+function slam(el,t,a,from=2.4,d=.32){const x=p(t,a,a+d);el.style.opacity=cl(x*4);el.style.transform=`scale(${from+(1-from)*back(x)})`;}
+function up(el,t,a,dist=90,d=.35){const k=eo(p(t,a,a+d));el.style.opacity=k;el.style.transform=`translateY(${(1-k)*dist}px)`;}
+function out(el,t,a,d=.25){const k=eo(p(t,a,a+d));if(t>=a){el.style.opacity=1-k;el.style.transform=`translateY(${-k*120}px) scale(${1-.1*k})`;}}
+// camera punches: [time, strength]
+const PUNCH=[[0.15,.06],[0.35,.04],[1.3,.05],[3.05,.09],[3.2,.05],[4.5,.1],[6.7,.05],[8.5,.05],[10.3,.05],[12.1,.05],[17.1,.05]];
+const SHAKE=[[4.5,.45],[3.05,.3]];
+function render(t){
+  S.forEach(([id,a,b])=>{$(id).style.display=(t>=a&&t<b)?'block':'none'});
+  // S1
+  up($('s1p'),t,0.0,40,.4); up($('s1n'),t,0.1,30,.4);
+  [[ 'h1',.15],['h2',.35],['h3',.7],['h4',.9],['h5',1.3],['h6',1.5],['h7',1.7]].forEach(([i,a])=>slam($(i),t,a, i<'h3'?2.6:1.9));
+  // S2
+  [['r1',3.15],['r2',3.4],['r3',3.85],['r4',4.0],['r5',4.15]].forEach(([i,a])=>slam($(i),t,a,2.2));
+  {const x=p(t,4.5,4.85);const e=$('r6');e.style.opacity=cl(x*4);e.style.transform=`scale(${3-2*back(x)}) rotate(${-4*eo(x)}deg)`;}
+  // S3
+  up($('yh'),t,6.45,40);
+  slam($('y1'),t,6.7,1.8,.35); out($('y1'),t,8.3);
+  slam($('y2'),t,8.5,1.8,.35); out($('y2'),t,10.1);
+  slam($('y3'),t,10.3,1.8,.35);
+  // S4
+  slam($('dh'),t,12.1,2,.35);
+  [['d1','k1',12.8],['d2','k2',13.9],['d3','k3',15.0]].forEach(([d,k,a])=>{up($(d),t,a,0,.01);const r=$(d);r.style.opacity=cl(p(t,a,a+.25));r.style.transform=`translateX(${-(1-eo(p(t,a,a+.3)))*200}px)`;
+    const x=p(t,a+.35,a+.6);$(k).style.opacity=x>0?1:0;$(k).style.transform=`rotate(45deg) scale(${x>0?(2-back(x)):0})`;});
+  // S5
+  up($('lg'),t,17.05,30,.4);
+  {const k=eo(p(t,17.1,17.6));$('ph').style.opacity=k;$('ph').style.transform=`scale(${.6+.4*back(p(t,17.1,17.5))})`;$('halo').style.opacity=eo(p(t,17.2,18.2))*(0.8+0.2*Math.sin(t*3));}
+  slam($('nm'),t,17.6,1.6,.35); up($('sh'),t,18.1,40); slam($('pl'),t,18.6,1.5,.4); up($('ds'),t,19.2,20);
+  // camera
+  let sc=1,dx=0,dy=0;
+  PUNCH.forEach(([a,s])=>{const x=p(t,a,a+.35);if(x>0&&x<1)sc+=s*Math.pow(1-x,2)});
+  SHAKE.forEach(([a,d])=>{const x=p(t,a,a+d);if(x>0&&x<1){const amp=22*(1-x);dx+=amp*Math.sin(t*90);dy+=amp*Math.cos(t*77)}});
+  $('cam').style.transform=`translate(${dx}px,${dy}px) scale(${sc})`;
+  // streak transitions
+  const st=$('st');let on=false;S.slice(1).forEach(([,a])=>{const x=p(t,a-.18,a+.22);if(x>0&&x<1){on=true;st.style.display='block';st.style.left=(1300-x*1700)+'px'}});if(!on)st.style.display='none';
+  $('prog').style.width=(t/D*1080)+'px';
+}
+window.render=render;window.DURATION=D;
+window.CUES=[
+ {t:0.02,k:'riser'},{t:0.15,k:'impact'},{t:0.35,k:'pop'},{t:0.7,k:'pop'},{t:0.9,k:'pop'},{t:1.3,k:'thud'},{t:1.5,k:'pop'},{t:1.7,k:'pop'},
+ {t:2.4,k:'riser'},{t:3.0,k:'wipe'},{t:3.15,k:'impact'},{t:3.4,k:'pop'},{t:3.85,k:'tick'},{t:4.0,k:'tick'},{t:4.15,k:'tick'},{t:4.5,k:'impact'},
+ {t:6.4,k:'wipe'},{t:6.45,k:'swoosh'},{t:6.7,k:'thud'},{t:8.3,k:'swoosh'},{t:8.5,k:'thud'},{t:10.1,k:'swoosh'},{t:10.3,k:'thud'},
+ {t:12.0,k:'wipe'},{t:12.1,k:'impact'},{t:12.8,k:'zip'},{t:13.15,k:'pop'},{t:13.9,k:'zip'},{t:14.25,k:'pop'},{t:15.0,k:'zip'},{t:15.35,k:'pop'},
+ {t:17.0,k:'wipe'},{t:17.1,k:'shimmer'},{t:17.6,k:'thud'},{t:18.6,k:'pop'},{t:18.6,k:'chime'}];
+if(!location.search.includes('capture')){const s0=performance.now();(function L(){render(((performance.now()-s0)/1000)%(D+1));requestAnimationFrame(L)})()}else render(0);
+</script>
