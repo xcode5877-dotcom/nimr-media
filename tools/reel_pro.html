@@ -1,0 +1,111 @@
+<!doctype html><meta charset=utf-8>
+<style>
+@font-face{font-family:P;font-weight:300;src:url(ibm-plex-sans-arabic-arabic-300-normal.woff2)}
+@font-face{font-family:P;font-weight:400;src:url(ibm-plex-sans-arabic-arabic-400-normal.woff2)}
+@font-face{font-family:P;font-weight:500;src:url(ibm-plex-sans-arabic-arabic-500-normal.woff2)}
+@font-face{font-family:P;font-weight:600;src:url(ibm-plex-sans-arabic-arabic-600-normal.woff2)}
+@font-face{font-family:P;font-weight:300 600;src:url(ibm-plex-sans-arabic-latin-500-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:N;font-weight:500;src:url(noto-naskh-arabic-arabic-500-normal.woff2)}
+@font-face{font-family:N;font-weight:700;src:url(noto-naskh-arabic-arabic-700-normal.woff2)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0D0F13}
+#cam{position:absolute;inset:0;transform-origin:50% 40%}
+#st{position:absolute;inset:0;direction:rtl;overflow:hidden;font-family:P;color:#EDE7DA;
+ background:radial-gradient(ellipse 1100px 1500px at 60% 35%,#1A1E26 0%,#111419 55%,#0B0D10 100%)}
+.gold{color:#C8A96A}
+.rule{position:absolute;height:2px;background:linear-gradient(90deg,rgba(200,169,106,0),#C8A96A,rgba(200,169,106,0))}
+.vr{position:absolute;width:2px;background:linear-gradient(180deg,rgba(200,169,106,0),#C8A96A,rgba(200,169,106,0))}
+.x{position:absolute;right:120px;left:120px;opacity:0}
+.kick{font-size:34px;font-weight:500;letter-spacing:0;color:#C8A96A}
+.h{font-family:N;font-weight:700;font-size:92px;line-height:1.35}
+.b{font-size:52px;font-weight:400;line-height:1.6;color:#D8D2C4}
+.num{font-family:N;font-size:64px;color:#C8A96A;display:inline-block;width:90px}
+.item{display:flex;align-items:baseline;gap:20px;margin-bottom:46px;font-size:54px;font-weight:500;line-height:1.45}
+.mask{overflow:hidden}
+.mask>span{display:inline-block}
+#photo{position:absolute;opacity:0}
+#photo img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(.15) contrast(1.05)}
+#prog{position:absolute;bottom:0;right:0;height:6px;background:#C8A96A;z-index:9}
+.brand{position:absolute;top:90px;right:120px;display:flex;align-items:center;gap:22px;z-index:5}
+.brand img{width:150px}
+.brand span{font-size:28px;color:#A39C8C;font-weight:500}
+.foot{position:absolute;bottom:70px;right:120px;left:120px;color:#7D776B;font-size:26px;font-weight:400;z-index:5}
+.cta{position:absolute;opacity:0}
+</style>
+<div id=cam><div id=st>
+<div class=brand><img src=nm_mark.png><span>المحامي نمر مصالحة</span></div>
+<div class=vr id=vr style="top:300px;right:84px;height:0"></div>
+
+<div id=photo style="top:330px;right:120px;width:300px;height:300px"><img src=lawyer.png style="border-radius:50%"></div>
+
+<!-- S1 -->
+<div class=x id=a0 style="top:780px"><div class=kick>مخصصات الطفل مع إعاقة</div></div>
+<div class=x id=a1 style="top:850px"><div class=h style="font-size:80px;white-space:nowrap">ثلاثة أسباب للاستحقاق…</div></div>
+<div class=x id=a2 style="top:1020px"><div class="h gold">وقرار يحسبها<br>كأنها سبب واحد.</div></div>
+
+<!-- S2 -->
+<div class=x id=b0 style="top:420px"><div class=kick>أسباب الاستحقاق</div><div class=rule style="position:relative;width:220px;margin-top:22px"></div></div>
+<div class=x id=b1 style="top:560px"><div class=item><span class=num>١</span><span>الاعتماد على الغير في الأكل،<br>اللبس، الاستحمام والتنقّل</span></div></div>
+<div class=x id=b2 style="top:820px"><div class=item><span class=num>٢</span><span>الحاجة إلى إشراف دائم<br>لمنع الخطر</span></div></div>
+<div class=x id=b3 style="top:1080px"><div class=item><span class=num>٣</span><span>علاج طبي خاص<br>ثابت أو متكرر</span></div></div>
+
+<!-- S3 -->
+<div class=x id=c0 style="top:480px"><div class=kick>عند وجود أكثر من سبب</div></div>
+<div class=x id=c1 style="top:560px"><div class=h>لكل سبب وزنه.</div></div>
+<div class=x id=c2 style="top:760px"><div class=b>لكن النِّسب لا تُجمع تلقائيًا،<br>بل تُحتسب وفق <span class=gold>قواعد خاصة</span>.</div></div>
+
+<!-- S4 -->
+<div class=x id=d0 style="top:480px"><div class=kick>ما نراه في بعض الملفات</div></div>
+<div class=x id=d1 style="top:560px"><div class=h>تقرّر اللجنة أن سببًا<br><span class=gold>«مشمول»</span> في سبب آخر.</div></div>
+<div class=x id=d2 style="top:920px"><div class=b>وعندها قد لا يُحتسب<br>جزء من الاستحقاق.</div></div>
+
+<!-- S5 -->
+<div class=x id=e0 style="top:480px"><div class=kick>نصيحتنا</div></div>
+<div class=x id=e1 style="top:560px"><div class=h>لا تكتفِ بالنظر<br>إلى النسبة.</div></div>
+<div class=x id=e2 style="top:900px"><div class=b>افحص <span class=gold>أي الأسباب اعتُرف بها</span>،<br>وكيف احتُسبت معًا.</div></div>
+
+<!-- CTA -->
+<div class=cta id=f0 style="top:360px;left:315px;width:450px;height:450px"><img src=lawyer.png style="width:100%;height:100%"></div>
+<div class=rule id=f1 style="top:900px;left:290px;width:500px;opacity:0"></div>
+<div class=cta id=f2 style="top:950px;left:80px;right:80px;text-align:center"><div class=h style="font-size:80px">استلمت قرار لجنة لابنك؟</div></div>
+<div class=cta id=f3 style="top:1100px;left:80px;right:80px;text-align:center"><div class=b>أرسل لنا القرار عبر واتساب،<br>ونراجعه معك.</div></div>
+<div class=cta id=f4 style="top:1330px;left:0;right:0;text-align:center"><span style="display:inline-block;border:2px solid #C8A96A;color:#EDE7DA;font-size:66px;font-weight:600;padding:10px 64px 18px;border-radius:6px;direction:ltr;letter-spacing:2px">054-334-5123</span><div style="margin-top:20px;font-size:32px;color:#C8A96A;font-weight:500">واتساب · ٩:٠٠–١٨:٠٠</div></div>
+
+<div class=foot id=foot>المعلومات عامة ولا تُعتبر استشارة قانونية. كل ملف يُفحص وفق ظروفه.</div>
+<div id=prog></div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), p=(t,a,b)=>cl((t-a)/(b-a));
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, eo=x=>1-Math.pow(1-x,3);
+const B=60/72; // 72 bpm, calm
+const SC=[0,5*B,13*B,20*B,27*B,34*B]; const D=45*B;
+const E=[['a0',.3,4.8],['a1',.9,4.8],['a2',2.6,4.8],
+ ['b0',5.2,12.7],['b1',6.5,12.7],['b2',8.5,12.7],['b3',10.5,12.7],
+ ['c0',13.2,19.7],['c1',13.8,19.7],['c2',15.5,19.7],
+ ['d0',20.2,26.7],['d1',20.8,26.7],['d2',23.5,26.7],
+ ['e0',27.2,33.7],['e1',27.8,33.7],['e2',30.0,33.7]];
+const cues=[{t:0.0,k:'thud'},{t:2.6*B,k:'impact'}];
+SC.slice(1).forEach(s=>cues.push({t:s-0.05,k:'swoosh'}));
+cues.push({t:SC[5]+2*B,k:'shimmer'});
+function reveal(el,t,a,o){ if(t<a||t>o){el.style.opacity=0;return}
+  const x=eio(p(t,a,a+.9)); const out=1-eio(p(t,o-.45,o));
+  el.style.opacity=x*out; el.style.transform=`translateY(${(1-x)*40}px)`; el.style.filter=`blur(${(1-x)*8}px)`;}
+function render(t){
+  E.forEach(([id,a,o])=>reveal($(id),t,a*B,o*B));
+  // photo: visible in hook, then hidden
+  {const ph=$('photo');const x=eio(p(t,0,1.2)), out=1-eio(p(t,4.4*B,5*B)); ph.style.opacity=x*out; ph.style.transform=`scale(${1.06-.06*x})`;}
+  $('vr').style.height=(eio(p(t,.2,2))*1300)+'px';
+  // CTA
+  const c=t>=SC[5];
+  const f=(id,a,d=.9)=>{const x=eio(p(t,SC[5]+a,SC[5]+a+d));$(id).style.opacity=c?x:0;$(id).style.transform=`translateY(${(1-x)*30}px)`};
+  f('f0',0,1.2); {const x=eio(p(t,SC[5]+.8,SC[5]+1.8));$('f1').style.opacity=c?1:0;$('f1').style.transform=`scaleX(${x})`;}
+  f('f2',1.2*B); f('f3',2.4*B); f('f4',3.6*B);
+  // slow camera drift (Ken Burns)
+  const sc=1+.025*Math.sin(t*.25)+(t<SC[1]?.03*p(t,0,SC[1]):0);
+  $('cam').style.transform=`scale(${sc})`;
+  $('prog').style.width=(t/D*1080)+'px';
+}
+window.render=render;window.DURATION=D;window.CUES=cues.sort((a,b)=>a.t-b.t);window.SC=SC;
+if(!location.search.includes('capture')){const s0=performance.now();(function L(){render(((performance.now()-s0)/1000)%(D+1));requestAnimationFrame(L)})()}else render(0);
+</script>

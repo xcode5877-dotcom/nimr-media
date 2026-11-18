@@ -104,6 +104,21 @@ elif style=='drive':  # beat-synced 100 bpm, scenes on beat grid
     for sc in SC[1:]:
         n=int(1.2*SR); t=np.arange(n)/SR; add(hp(rng.standard_normal(n),300)*(t/t[-1])**3,sc-1.2,.16)
         add(kick(40,160,4),sc,.6)
+elif style=='cinema':
+    B=60/72; SC=[float(x) for x in sys.argv[6].split(',')]
+    prog=[(50,[50,53,57]),(46,[46,50,53]),(48,[48,52,55]),(45,[45,49,52])]  # Dm Bb C A
+    motif=[2,1,0,1]
+    for b in range(int(dur/B)+1):
+        t0=b*B; bar=b//4; r,ch=prog[bar%4]; inb=b%4
+        if inb==0:
+            add(sum(string(m,4*B+.6) for m in [r-12]+ch),t0,.20)
+            add(piano(r,3.5),t0,.16)
+        if t0>=SC[1]-0.01 and t0<SC[5]:
+            add(kick(42,60,9),t0,.22 if inb in(0,2) else .12)
+        add(piano(ch[motif[inb]]+24,2.2),t0+(B/2 if inb%2 else 0),.11 if t0>=SC[1] else .08)
+    for sc in SC[1:]:
+        n=int(1.6*SR); t=np.arange(n)/SR; add(lp(hp(rng.standard_normal(n),200),3000)*(t/t[-1])**2.5,sc-1.6,.10)
+    add(kick(38,90,3),0.02,.6)
 fade=np.ones(N); fo=int(1.5*SR); fade[-fo:]=np.linspace(1,0,fo); mix*=fade[:,None]
 mix=np.tanh(mix*1.3); mix/=np.max(np.abs(mix))+1e-9; mix*=.85
 wavfile.write(out,SR,(mix*32767).astype(np.int16)); print('ok',style)
