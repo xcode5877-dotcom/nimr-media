@@ -1,0 +1,125 @@
+<!doctype html><meta charset=utf-8>
+<style>
+@font-face{font-family:C;font-weight:600;src:url(cairo-arabic-600-normal.woff2)}
+@font-face{font-family:C;font-weight:800;src:url(cairo-arabic-800-normal.woff2)}
+@font-face{font-family:C;font-weight:900;src:url(cairo-arabic-900-normal.woff2)}
+@font-face{font-family:C;font-weight:600 800;src:url(cairo-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:C;font-weight:900;src:url(cairo-latin-900-normal.woff2);unicode-range:U+0000-00FF}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#F4F2EC}
+#cam{position:absolute;inset:0;transform-origin:50% 45%}
+#st{position:absolute;inset:0;font-family:C,'Noto Color Emoji';direction:rtl;overflow:hidden;background:#F4F2EC}
+.dots{position:absolute;inset:0;background-image:radial-gradient(rgba(20,30,50,.07) 3px,transparent 3px);background-size:48px 48px}
+.x{position:absolute;opacity:0}
+.c{left:60px;right:60px;text-align:center}
+.big{font-weight:900;color:#111827;line-height:1.25}
+.card{position:absolute;left:110px;right:110px;height:230px;border-radius:40px;color:#fff;display:flex;align-items:center;gap:34px;padding:0 50px;font-weight:900;font-size:58px;line-height:1.25;box-shadow:0 24px 50px rgba(0,0,0,.18)}
+.card em{font-style:normal;flex:none;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:66px}
+.k1{background:#0F9DAE}.k2{background:#F08A3E}.k3{background:#6D5CE8}
+.stamp{position:absolute;color:#E11D48;border:14px solid #E11D48;border-radius:28px;font-weight:900;padding:0 46px 18px;font-size:110px;background:rgba(255,255,255,.85)}
+.pill{display:inline-block;background:#111827;color:#FDE047;padding:6px 40px 18px;border-radius:24px}
+#end{position:absolute;inset:0;background:#111827;display:none;z-index:20}
+#prog{position:absolute;top:0;right:0;height:12px;background:#0F9DAE;z-index:99}
+.logo{position:absolute;top:70px;left:0;right:0;text-align:center;z-index:6}
+.foot{position:absolute;bottom:60px;left:60px;right:60px;text-align:center;color:#8A8F99;font-size:27px;font-weight:600;z-index:6}
+</style>
+<div id=cam><div id=st><div class=dots></div>
+<div class=logo><img src=nm_mark.png style="width:170px;filter:brightness(.55) saturate(1.3)"></div>
+
+<!-- S1 hook -->
+<div class="x c big" id=a1 style="top:250px;font-size:96px">ابنك عنده <span style="color:#0F9DAE">3 أسباب</span><br>للمخصصات…</div>
+<div class="card k1 x" id=h1 style="top:880px"><em>🤲</em>مساعدة يومية</div>
+<div class="card k2 x" id=h2 style="top:880px"><em>👁️</em>إشراف</div>
+<div class="card k3 x" id=h3 style="top:880px"><em>💊</em>علاج طبي</div>
+<div class="x c big" id=a2 style="top:1230px;font-size:88px">وانحسبوا<br><span class=pill>كأنهم سبب واحد؟!</span></div>
+
+<!-- S2 three grounds -->
+<div class="x c big" id=b0 style="top:300px;font-size:76px">مخصصات الطفل مع إعاقة<br><span style="color:#E11D48">مش بس «إشراف»</span></div>
+<div class="card k1 x" id=b1 style="top:640px"><em>🤲</em><span>بيحتاج مساعدة بالأكل،<br>اللبس، الحمام والتنقّل</span></div>
+<div class="card k2 x" id=b2 style="top:910px"><em>👁️</em><span>بيحتاج إشراف<br>عشان ما يتأذى</span></div>
+<div class="card k3 x" id=b3 style="top:1180px"><em>💊</em><span>بيحتاج علاج<br>طبي خاص</span></div>
+
+<!-- S3 rules -->
+<div class="x c big" id=c0 style="top:380px;font-size:84px">لما يكون عنده<br><span style="color:#0F9DAE">أكثر من سبب</span>…</div>
+<div class="x c big" id=c1 style="top:760px;font-size:74px">كل سبب إله وزن ⚖️</div>
+<div class="x c big" id=c2 style="top:960px;font-size:70px">بس النِّسب<br><span class=pill>ما بتنجمع ببساطة</span></div>
+<div class="x c" id=c3 style="top:1330px;font-size:54px;font-weight:800;color:#4B5563">في قواعد خاصة لحسابها</div>
+
+<!-- S4 the trap -->
+<div class="x c big" id=d0 style="top:330px;font-size:76px">أحيانًا اللجنة بتقول:</div>
+<div class="x c" id=d1 style="top:480px;font-size:86px;font-weight:900;color:#E11D48">«هاد السبب داخل بالثاني»</div>
+<div class="card k1 x" id=d2 style="top:780px"><em>🤲</em>مساعدة يومية</div>
+<div class="card k2 x" id=d3 style="top:1050px"><em>👁️</em>إشراف</div>
+<div class="stamp x" id=d4 style="top:1010px;left:300px">داخل؟</div>
+<div class="x c big" id=d5 style="top:1380px;font-size:66px">وهيك ممكن يضيع<br><span style="color:#E11D48">جزء من حقه</span></div>
+
+<!-- S5 tip -->
+<div class="x c big" id=e0 style="top:420px;font-size:80px">لا تفحص بس<br><span style="text-decoration:line-through;text-decoration-color:#E11D48;text-decoration-thickness:12px">شو النسبة</span></div>
+<div class="x c big" id=e1 style="top:820px;font-size:80px">افحص <span style="color:#0F9DAE">أي أسباب انعدّت</span></div>
+<div class="x c big" id=e2 style="top:1020px;font-size:80px">وإذا <span class=pill>انحسبوا مع بعض</span></div>
+
+<div class=foot id=foot>المعلومات عامة ولا تُعتبر استشارة قانونية. كل ملف إله ظروفه.</div>
+
+<div id=end>
+  <div style="position:absolute;top:200px;width:100%;text-align:center"><img src=nm_mark.png style="width:250px"></div>
+  <div id=f1 style="position:absolute;top:420px;left:60px;right:60px;text-align:center;color:#fff;font-weight:900;font-size:86px;line-height:1.3">وصلك قرار لجنة<br>لابنك؟</div>
+  <div id=f2 style="position:absolute;top:720px;left:60px;right:60px;text-align:center;color:#FDE047;font-weight:900;font-size:80px;line-height:1.25">صوّره 📸<br>وابعتلنا على الواتساب</div>
+  <div id=f3 style="position:absolute;top:1060px;width:100%;text-align:center"><img src=lawyer.png style="width:250px"></div>
+  <div id=f4 style="position:absolute;top:1350px;width:100%;text-align:center"><span style="display:inline-block;background:#25D366;color:#fff;font-weight:900;font-size:90px;padding:8px 70px 22px;border-radius:999px;direction:ltr">054-334-5123</span></div>
+  <div id=f5 style="position:absolute;top:1560px;left:80px;right:80px;text-align:center;color:#9CA3AF;font-size:29px;font-weight:600;line-height:1.6">المحامي نمر مصالحة · مكتب محاماة · دبورية<br>المعلومات عامة ولا تُعتبر استشارة قانونية.</div>
+</div>
+<div id=prog></div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), p=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3), back=x=>{const c1=2,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const B=0.6; // 100 bpm beat
+const S=[0, 6*B, 16*B, 28*B, 40*B, 50*B]; const D=62*B;
+// element: [id, inBeat, outBeat, kind, sfx]
+const E=[
+ ['a1',0,5.5,'slam','impact'],['h1',1.5,4,'fromR','pop'],['h2',2,4,'fromL','pop'],['h3',2.5,4,'fromB','pop'],['a2',4,5.5,'slam','impact'],
+ ['b0',6.25,15.5,'drop','thud'],['b1',8,15.5,'fromR','zip'],['b2',10,15.5,'fromR','zip'],['b3',12,15.5,'fromR','zip'],
+ ['c0',16.25,27.5,'drop','thud'],['c1',19,27.5,'slam','pop'],['c2',21,27.5,'slam','impact'],['c3',24,27.5,'up','tick'],
+ ['d0',28.25,39.5,'up','swoosh'],['d1',29.5,39.5,'slam','impact'],['d2',31.5,39.5,'fromR','pop'],['d3',32.5,39.5,'fromR','pop'],['d4',34,39.5,'stamp','impact'],['d5',36,39.5,'up','thud'],
+ ['e0',40.25,49.5,'drop','thud'],['e1',43,49.5,'fromR','zip'],['e2',45,49.5,'slam','impact']];
+const cues=[];E.forEach(e=>cues.push({t:e[1]*B,k:e[4]}));
+S.slice(1).forEach(s=>{cues.push({t:s-0.02,k:'wipe'})});
+cues.push({t:S[5]+.2,k:'shimmer'},{t:S[5]+3*B,k:'impact'},{t:S[5]+6*B,k:'pop'},{t:S[5]+6*B,k:'chime'});
+function anim(el,kind,t,a,o){
+  if(t<a||t>=o){el.style.opacity=0;return}
+  const x=p(t,a,a+.32), k=eo(x), bx=back(x); el.style.opacity=cl(x*3);
+  const out=p(t,o-.2,o); const fo=1-out; el.style.opacity*=fo;
+  let tr='';
+  if(kind==='slam') tr=`scale(${2.2-1.2*bx})`;
+  else if(kind==='drop') tr=`translateY(${-(1-bx)*160}px)`;
+  else if(kind==='up') tr=`translateY(${(1-k)*90}px)`;
+  else if(kind==='fromR') tr=`translateX(${-(1-bx)*-900}px)`;
+  else if(kind==='fromL') tr=`translateX(${(1-bx)*-900}px)`;
+  else if(kind==='fromB') tr=`translateY(${(1-bx)*700}px)`;
+  else if(kind==='stamp') tr=`rotate(-10deg) scale(${2.8-1.8*bx})`;
+  el.style.transform=tr;
+}
+function render(t){
+  E.forEach(([id,a,o,kind])=>anim($(id),kind,t,a*B,o*B));
+  // hook: three cards fan out then merge into one
+  if(t<6*B){const m=p(t,4*B,4.6*B);
+    const pos=[[-0, -250],[0,0],[0,250]];
+    ['h1','h2','h3'].forEach((id,i)=>{const e=$(id); if(t>=[1.5,2,2.5][i]*B&&t<4.6*B){const off=(i-1)*260*(1-eo(m)); e.style.transform=(e.style.transform||'')+` translateY(${off}px) scale(${1-.15*m})`; e.style.opacity=t<4.6*B?(i===1?1:1-m):0;} else if(t>=4.6*B) e.style.opacity=0;});
+  }
+  // S4: card d3 slides into d2
+  if(t>=33.5*B&&t<39.5*B){const m=eo(p(t,33.5*B,34.2*B)); $('d3').style.transform=`translateY(${-270*m}px) scale(${1-.1*m})`; $('d3').style.opacity=1-.6*m;}
+  // end
+  const on=t>=S[5]; $('end').style.display=on?'block':'none'; $('foot').style.display=on?'none':'block';
+  if(on){$('end').style.transform=`translateY(${(1-eo(p(t,S[5],S[5]+.4)))*1920}px)`;
+    const f=(id,a,sl)=>{const x=p(t,S[5]+a,S[5]+a+.35);$(id).style.opacity=cl(x*3);$(id).style.transform=sl?`scale(${1.8-.8*back(x)})`:`translateY(${(1-eo(x))*50}px)`};
+    f('f1',2*B);f('f2',3*B,1);f('f3',5*B);f('f4',6*B,1);f('f5',7*B);}
+  // camera punch on beat-1 of every bar + impacts
+  let sc=1,dx=0,dy=0;
+  cues.filter(c=>c.k==='impact').forEach(c=>{const x=p(t,c.t,c.t+.3);if(x>0&&x<1){sc+=.05*Math.pow(1-x,2);dx+=16*(1-x)*Math.sin(t*95);dy+=12*(1-x)*Math.cos(t*80)}});
+  $('cam').style.transform=`translate(${dx}px,${dy}px) scale(${sc})`;
+  $('prog').style.width=(t/D*1080)+'px';
+}
+window.render=render;window.DURATION=D;window.CUES=cues.sort((a,b)=>a.t-b.t);window.SCENES=S;
+if(!location.search.includes('capture')){const s0=performance.now();(function L(){render(((performance.now()-s0)/1000)%(D+1));requestAnimationFrame(L)})()}else render(0);
+</script>

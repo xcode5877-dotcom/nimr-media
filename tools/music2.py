@@ -76,6 +76,34 @@ elif style=='piano':  # emotional: 76 bpm, piano arps + soft pulse
             add(snap(),t0+beat,.18); add(snap(),t0+3*beat,.18)
             add(sum(string(m+12,bar+.3) for m in ch),t0,.12)
     add(kick(45,150,5),DROP,.55)
+elif style=='drive':  # beat-synced 100 bpm, scenes on beat grid
+    B=0.6; SC=[float(x) for x in sys.argv[6].split(',')]  # scene starts (s)
+    prog=[(57,[57,60,64]),(53,[53,57,60]),(55,[55,59,62]),(52,[52,56,59])]  # Am F G E
+    nb=int(dur/B)+1
+    for b in range(nb):
+        t0=b*B; bar=b//4; r,ch=prog[bar%4]; inb=b%4
+        hook = t0<SC[1]; brk = SC[3]<=t0<SC[4]; cta = t0>=SC[5]
+        if hook:
+            if inb in(0,2): add(subbass(r,B*2),t0,.35)
+            for s16 in range(4): n=int(.03*SR); add(bp(rng.standard_normal(n),2500,5000)*np.exp(-np.arange(n)/SR*120),t0+s16*B/4,.08)
+            continue
+        if cta:
+            if inb==0: add(piano(ch[0]+12,2.4),t0,.2); add(kick(50,90,8),t0,.3)
+            add(piano(ch[(inb)%3]+24,1.2),t0,.08); continue
+        if brk:
+            if inb==0: add(kick(45,120,5),t0,.55); add(sum(string(m,4*B+.3) for m in ch),t0,.2)
+            add(piano(ch[inb%3]+24,1.0),t0,.10)
+            for s16 in range(2): n=int(.03*SR); add(bp(rng.standard_normal(n),2500,5000)*np.exp(-np.arange(n)/SR*120),t0+s16*B/2,.09)
+            continue
+        add(kick(50,110,8),t0,.5 if inb in(0,2) else 0)
+        if inb in(1,3): add(snap(),t0,.32)
+        if inb==3: add(kick(50,110,8),t0+B/2,.3)
+        for s in range(2): add(shaker(),t0+s*B/2+B/4,.13,pan=.35)
+        if inb in(0,2): add(subbass(r,B*1.9),t0,.42)
+        for s in range(2): add(marimba(ch[(inb*2+s)%3]+12),t0+s*B/2,.12,pan=(.3 if s else -.3))
+    for sc in SC[1:]:
+        n=int(1.2*SR); t=np.arange(n)/SR; add(hp(rng.standard_normal(n),300)*(t/t[-1])**3,sc-1.2,.16)
+        add(kick(40,160,4),sc,.6)
 fade=np.ones(N); fo=int(1.5*SR); fade[-fo:]=np.linspace(1,0,fo); mix*=fade[:,None]
 mix=np.tanh(mix*1.3); mix/=np.max(np.abs(mix))+1e-9; mix*=.85
 wavfile.write(out,SR,(mix*32767).astype(np.int16)); print('ok',style)
