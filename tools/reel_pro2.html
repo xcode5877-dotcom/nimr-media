@@ -1,0 +1,81 @@
+<!doctype html><meta charset=utf-8>
+<style>
+@font-face{font-family:P;font-weight:300;src:url(ibm-plex-sans-arabic-arabic-300-normal.woff2)}
+@font-face{font-family:P;font-weight:400;src:url(ibm-plex-sans-arabic-arabic-400-normal.woff2)}
+@font-face{font-family:P;font-weight:500;src:url(ibm-plex-sans-arabic-arabic-500-normal.woff2)}
+@font-face{font-family:P;font-weight:600;src:url(ibm-plex-sans-arabic-arabic-600-normal.woff2)}
+@font-face{font-family:P;font-weight:300 600;src:url(ibm-plex-sans-arabic-latin-500-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:N;font-weight:500;src:url(noto-naskh-arabic-arabic-500-normal.woff2)}
+@font-face{font-family:N;font-weight:700;src:url(noto-naskh-arabic-arabic-700-normal.woff2)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0D0F13}
+#cam{position:absolute;inset:0;transform-origin:50% 40%}
+#st{position:absolute;inset:0;direction:rtl;overflow:hidden;font-family:P;color:#EDE7DA;
+ background:radial-gradient(ellipse 1100px 1500px at 60% 35%,#1A1E26 0%,#111419 55%,#0B0D10 100%)}
+.gold{color:#C8A96A}
+.rule{position:absolute;height:2px;background:linear-gradient(90deg,rgba(200,169,106,0),#C8A96A,rgba(200,169,106,0))}
+.vr{position:absolute;width:2px;background:linear-gradient(180deg,rgba(200,169,106,0),#C8A96A,rgba(200,169,106,0))}
+.x{position:absolute;right:120px;left:120px;opacity:0}
+.kick{font-size:34px;font-weight:500;letter-spacing:0;color:#C8A96A}
+.h{font-family:N;font-weight:700;font-size:108px;line-height:1.4}
+.b{font-size:66px;font-weight:500;line-height:1.55;color:#D8D2C4}
+.num{font-family:N;font-size:64px;color:#C8A96A;display:inline-block;width:90px}
+.item{display:flex;align-items:baseline;gap:20px;margin-bottom:46px;font-size:54px;font-weight:500;line-height:1.45}
+.mask{overflow:hidden}
+.mask>span{display:inline-block}
+#photo{position:absolute;opacity:0}
+#photo img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(.15) contrast(1.05)}
+#prog{position:absolute;bottom:0;right:0;height:6px;background:#C8A96A;z-index:9}
+.brand{position:absolute;top:90px;right:120px;display:flex;align-items:center;gap:22px;z-index:5}
+.brand img{width:150px}
+.brand span{font-size:28px;color:#A39C8C;font-weight:500}
+.foot{position:absolute;bottom:70px;right:120px;left:120px;color:#7D776B;font-size:26px;font-weight:400;z-index:5}
+.cta{position:absolute;opacity:0}
+</style>
+<div id=cam><div id=st>
+<div class=brand><img src=nm_mark.png style="width:180px"><span style="font-size:34px">المحامي نمر مصالحة</span></div>
+<div class=vr id=vr style="top:300px;right:70px;height:0"></div>
+<div id=photo style="top:330px;left:340px;width:400px;height:400px"><img src=lawyer.png style="border-radius:50%"></div>
+<div id=scr></div>
+<div class=cta id=f0 style="top:330px;left:340px;width:400px;height:400px"><img src=lawyer.png style="width:100%;height:100%"></div>
+<div class=rule id=f1 style="top:790px;left:240px;width:600px;opacity:0"></div>
+<div class=cta id=f2 style="top:840px;left:60px;right:60px;text-align:center"><div class=h style="font-size:100px">وصلك قرار لابنك؟</div></div>
+<div class=cta id=f3 style="top:1020px;left:60px;right:60px;text-align:center"><div class=b style="font-size:70px">ابعتلنا ياه على الواتساب<br>ومنراجعه معك.</div></div>
+<div class=cta id=f4 style="top:1310px;left:0;right:0;text-align:center"><span style="display:inline-block;border:3px solid #C8A96A;color:#EDE7DA;font-size:84px;font-weight:600;padding:10px 70px 22px;border-radius:8px;direction:ltr;letter-spacing:3px">054-334-5123</span><div style="margin-top:24px;font-size:40px;color:#C8A96A;font-weight:500">واتساب · <span dir=ltr>9:00 – 18:00</span></div></div>
+<div class=foot id=foot style="font-size:30px;text-align:center">المعلومات عامة ولا تُعتبر استشارة قانونية.</div>
+<div id=prog></div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), p=(t,a,b)=>cl((t-a)/(b-a));
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+// [main, sub, dur, topOffset]
+const SCR=[
+ ['قرار لجنة ابنك<br>ممكن يكون <span class=gold>ناقص</span>…','وإنت مش منتبه.',4.6,'hook'],
+ ['ابنك ممكن يستحق<br>مخصصات <span class=gold>لأكثر من سبب</span>','',3.8],
+ ['<div class=num style="font-size:150px;width:auto;display:block;line-height:1.1">١</div>بيحتاج مساعدة يومية','بالأكل، اللبس، الحمام والتنقّل',4.0],
+ ['<div class=num style="font-size:150px;width:auto;display:block;line-height:1.1">٢</div>بيحتاج إشراف دائم','عشان ما يتأذى',3.4],
+ ['<div class=num style="font-size:150px;width:auto;display:block;line-height:1.1">٣</div>بيحتاج علاج طبي خاص','ثابت أو متكرر',3.4],
+ ['أحيانًا اللجنة<br>بتعترف <span class=gold>بسبب واحد</span>…','',3.6],
+ ['وبتعتبر الباقي<br><span class=gold>«داخل فيه»</span>.','',3.4],
+ ['وهيك ممكن<br>ينقص من حقه.','',3.4],
+ ['<span class=gold>نصيحتنا:</span>','لما يوصلك القرار،<br>افحص كل الأسباب اللي انعدّت.',4.6]];
+let html='',t=0,ST=[];
+SCR.forEach((s,i)=>{ST.push(t); const top=s[3]==='hook'?820:700;
+ html+=`<div class=x id=s${i} style="top:${top}px;text-align:center;right:70px;left:70px"><div class=h>${s[0]}</div>${s[1]?`<div class=b style="margin-top:40px">${s[1]}</div>`:''}</div>`; t+=s[2];});
+const CTA=t, D=t+8.5; $('scr').innerHTML=html;
+const cues=[{t:0,k:'thud'},{t:.4,k:'impact'}]; ST.slice(1).forEach(s=>cues.push({t:s-.05,k:'swoosh'})); cues.push({t:CTA-.05,k:'swoosh'},{t:CTA+1.5,k:'shimmer'});
+function render(tt){
+  SCR.forEach((s,i)=>{const el=$('s'+i),a=ST[i],o=ST[i]+s[2]; if(tt<a||tt>o){el.style.opacity=0;return}
+    const x=eio(p(tt,a+.1,a+.8)), out=1-eio(p(tt,o-.4,o)); el.style.opacity=x*out; el.style.transform=`translateY(${(1-x)*40}px)`; el.style.filter=`blur(${(1-x)*6}px)`;
+    const sub=el.querySelector('.b'); if(sub){const y=eio(p(tt,a+1.0,a+1.7)); sub.style.opacity=y; sub.style.transform=`translateY(${(1-y)*30}px)`;}});
+  {const ph=$('photo');const x=eio(p(tt,0,1)),out=1-eio(p(tt,ST[1]-.5,ST[1]));ph.style.opacity=x*out;}
+  $('vr').style.height=(eio(p(tt,.2,2))*1300)+'px';
+  const c=tt>=CTA; const f=(id,a,d=.9)=>{const x=eio(p(tt,CTA+a,CTA+a+d));$(id).style.opacity=c?x:0;$(id).style.transform=`translateY(${(1-x)*30}px)`};
+  f('f0',0,1); {const x=eio(p(tt,CTA+.6,CTA+1.6));$('f1').style.opacity=c?1:0;$('f1').style.transform=`scaleX(${x})`;} f('f2',1.0); f('f3',2.2); f('f4',3.4);
+  $('cam').style.transform=`scale(${1+.02*Math.sin(tt*.22)})`;
+  $('prog').style.width=(tt/D*1080)+'px';
+}
+window.render=render;window.DURATION=D;window.CUES=cues.sort((a,b)=>a.t-b.t);window.GROUPS=[0,ST[1],ST[5],ST[8],CTA];
+if(!location.search.includes('capture')){const s0=performance.now();(function L(){render(((performance.now()-s0)/1000)%(D+1));requestAnimationFrame(L)})()}else render(0);
+</script>
