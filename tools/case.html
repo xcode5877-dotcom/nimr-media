@@ -1,0 +1,97 @@
+<!doctype html><meta charset=utf-8>
+<style>
+@font-face{font-family:C;font-weight:600;src:url(cairo-arabic-600-normal.woff2)}
+@font-face{font-family:C;font-weight:800;src:url(cairo-arabic-800-normal.woff2)}
+@font-face{font-family:C;font-weight:900;src:url(cairo-arabic-900-normal.woff2)}
+@font-face{font-family:C;font-weight:600 800;src:url(cairo-latin-700-normal.woff2);unicode-range:U+0000-00FF,U+20AA}
+@font-face{font-family:C;font-weight:900;src:url(cairo-latin-900-normal.woff2);unicode-range:U+0000-00FF,U+20AA}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#2B2F36}
+#cam{position:absolute;inset:0;transform-origin:50% 45%}
+#stage{position:absolute;inset:0;font-family:C;direction:rtl;overflow:hidden;
+ background:#EFE8DA radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.6),rgba(0,0,0,0) 60%)}
+.grain{position:absolute;inset:0;opacity:.18;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.03) 0 1px,transparent 1px 4px)}
+.sheet{position:absolute;left:70px;right:70px;top:240px;bottom:300px;background:#FBF8F1;border-radius:6px;box-shadow:0 30px 70px rgba(40,30,10,.25),0 2px 0 #E6DCC6}
+.sheet:before{content:'';position:absolute;top:0;bottom:0;right:110px;width:3px;background:rgba(192,57,43,.25)}
+.lines{position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 99px,rgba(60,90,140,.12) 99px 101px);background-position:0 60px}
+.tab{position:absolute;top:150px;right:90px;padding:14px 40px 20px;background:#1C2533;color:#F5E6B8;font-weight:800;font-size:40px;border-radius:14px 14px 0 0}
+.sc{position:absolute;inset:0;display:none}
+.t{position:absolute;right:180px;left:120px;color:#1C2533;font-weight:900;text-align:right}
+.hl{-webkit-box-decoration-break:clone;box-decoration-break:clone;background:linear-gradient(transparent 55%,#FFE066 55%,#FFE066 92%,transparent 92%);background-size:0% 100%;background-repeat:no-repeat;background-position:right}
+.stamp{position:absolute;color:#C0392B;border:14px solid #C0392B;border-radius:24px;font-weight:900;padding:0 50px 20px;mix-blend-mode:multiply}
+.note{display:flex;gap:30px;align-items:flex-start;margin-bottom:80px}
+.note b{flex:none;width:78px;height:78px;border-radius:50%;background:#1C2533;color:#FFE066;font-size:46px;display:flex;align-items:center;justify-content:center}
+.num{direction:ltr;display:inline-block}
+.end{position:absolute;inset:0;background:#13213A;display:none}
+#prog{position:absolute;top:0;right:0;height:10px;background:#C0392B;z-index:99}
+.foot{position:absolute;bottom:200px;left:80px;right:80px;text-align:center;color:#7A6F5C;font-size:28px;font-weight:600}
+</style>
+<div id=cam><div id=stage><div class=grain></div>
+<div class=tab id=tab></div>
+<div class=sheet><div class=lines></div></div>
+<div id=scenes></div>
+<div class=foot id=foot></div>
+<div class=end id=end>
+  <div style="position:absolute;top:230px;width:100%;text-align:center"><img src=nm_mark.png style="width:260px"></div>
+  <div id=eq style="position:absolute;top:470px;left:80px;right:80px;text-align:center;color:#fff;font-weight:900;font-size:84px;line-height:1.35"></div>
+  <div id=ep style="position:absolute;top:860px;width:100%;text-align:center"><img src=lawyer.png style="width:300px"></div>
+  <div id=ew style="position:absolute;top:1200px;width:100%;text-align:center;color:#FFE066;font-weight:900;font-size:70px"></div>
+  <div id=en style="position:absolute;top:1330px;width:100%;text-align:center"><span style="display:inline-block;background:#25D366;color:#fff;font-weight:900;font-size:86px;padding:8px 70px 22px;border-radius:999px;direction:ltr">054-334-5123</span></div>
+  <div id=ed style="position:absolute;top:1520px;left:80px;right:80px;text-align:center;color:#9EA9BE;font-size:29px;font-weight:600;line-height:1.6"></div>
+</div>
+<div id=prog></div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), p=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3), back=x=>{const c1=2.2,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const C=window.CASE;
+$('tab').textContent=C.tab; $('foot').innerHTML=C.foot;
+let html='',cues=[],T=0,S=[];
+// scene 1: typewriter hook
+const typed=C.hook; let s1=`<div class=sc id=s1><div class=t style="top:420px">`;
+typed.forEach((l,i)=>{s1+=`<div id=ty${i} style="font-size:${l.size||80}px;line-height:1.35;margin-bottom:30px;min-height:${(l.size||80)*1.35}px;color:${l.color||'#1C2533'}"></div>`;});
+s1+=`</div><div class=stamp id=st1 style="top:${C.stampTop||1180}px;left:180px;font-size:120px;transform:rotate(-8deg)">${C.stamp}</div></div>`;
+html+=s1;
+// scene 2: notes
+let s2=`<div class=sc id=s2><div class=t style="top:400px"><div style="font-size:76px;color:#C0392B;margin-bottom:60px">${C.notesTitle}</div><div style="font-size:64px;font-weight:800">`;
+C.notes.forEach((n,i)=>{s2+=`<div class=note id=n${i}><b>${i+1}</b><span class=hl id=nh${i} style="line-height:1.5">${n}</span></div>`});
+s2+=`</div></div></div>`; html+=s2;
+// scene 3: punch
+let s3=`<div class=sc id=s3><div class=t style="top:400px;font-size:76px;color:#C0392B">${C.punchTitle}</div>`;
+C.punch.forEach((b,i)=>{s3+=`<div class=t id=p${i} style="top:${b.top}px;font-size:${b.size}px;line-height:1.3;color:${b.color||'#1C2533'}">${b.html}</div>`});
+s3+=`</div>`; html+=s3;
+$('scenes').innerHTML=html;
+$('eq').innerHTML=C.endQ; $('ew').innerHTML=C.endW; $('ed').innerHTML=C.endD;
+// timeline
+const D1=C.d1, D2=C.d2, D3=C.d3, D4=C.d4; const A2=D1, A3=D1+D2, A4=D1+D2+D3, D=A4+D4;
+// type schedule
+let tt=0.3; const TY=typed.map(l=>{const st=tt; const dur=l.t.length*0.045; tt+=dur+0.35; return {st,dur,txt:l.t}});
+TY.forEach(o=>{for(let k=0;k<o.txt.length;k+=3)cues.push({t:o.st+k*0.045,k:'tick'})});
+const STAMP=tt+0.3; cues.push({t:STAMP,k:'impact'});
+cues.push({t:A2,k:'swoosh'}); C.notes.forEach((n,i)=>{cues.push({t:A2+0.8+i*C.noteGap,k:'pop'});cues.push({t:A2+1.1+i*C.noteGap,k:'zip'})});
+cues.push({t:A3,k:'swoosh'}); C.punch.forEach((b,i)=>cues.push({t:A3+b.at,k:b.sfx||'thud'}));
+cues.push({t:A4,k:'wipe'}); cues.push({t:A4+0.2,k:'shimmer'}); cues.push({t:A4+1.4,k:'pop'}); cues.push({t:A4+2.0,k:'chime'});
+function render(t){
+  $('s1').style.display=t<A2?'block':'none'; $('s2').style.display=(t>=A2&&t<A3)?'block':'none'; $('s3').style.display=(t>=A3&&t<A4)?'block':'none';
+  const endOn=t>=A4; $('end').style.display=endOn?'block':'none';
+  if(endOn){const k=eo(p(t,A4,A4+.45)); $('end').style.transform=`translateY(${(1-k)*1920}px)`;
+    const f=(id,a)=>{const x=eo(p(t,A4+a,A4+a+.4));$(id).style.opacity=x;$(id).style.transform=`translateY(${(1-x)*50}px)`};
+    f('eq',.4);f('ep',.8);f('ew',1.2); {const x=p(t,A4+1.4,A4+1.8);$('en').style.opacity=cl(x*3);$('en').style.transform=`scale(${1.6-.6*back(x)})`} f('ed',2.0);}
+  // typing
+  TY.forEach((o,i)=>{const n=Math.floor(cl((t-o.st)/o.dur)*o.txt.length); $('ty'+i).textContent=o.txt.slice(0,n)+((t>o.st&&n<o.txt.length&&Math.floor(t*4)%2)?'|':'')});
+  {const x=p(t,STAMP,STAMP+.25),e=$('st1');e.style.opacity=x>0?1:0;e.style.transform=`rotate(-8deg) scale(${x>0?2.6-1.6*back(x):0})`}
+  C.notes.forEach((n,i)=>{const a=A2+0.8+i*C.noteGap;const x=eo(p(t,a,a+.35));const e=$('n'+i);e.style.opacity=x;e.style.transform=`translateX(${-(1-x)*120}px)`;
+    $('nh'+i).style.backgroundSize=(eo(p(t,a+.4,a+1.0))*100)+'% 100%'});
+  C.punch.forEach((b,i)=>{const a=A3+b.at;const e=$('p'+i);const x=p(t,a,a+.35);e.style.opacity=cl(x*3);e.style.transform=`scale(${(b.pop||1.5)-((b.pop||1.5)-1)*back(x)})`;
+    if(b.count){const v=Math.round(b.count*eo(p(t,a,a+1.4)));e.querySelector('.num').textContent=v.toLocaleString('en-US')+' ₪'}});
+  // camera
+  let sc=1,dx=0,dy=0; const sh=(a,d,amp)=>{const x=p(t,a,a+d);if(x>0&&x<1){dx+=amp*(1-x)*Math.sin(t*90);dy+=amp*(1-x)*Math.cos(t*77)}};
+  sh(STAMP,.4,26); C.punch.forEach(b=>{if(b.shake)sh(A3+b.at,.35,18)});
+  const pu=(a,s)=>{const x=p(t,a,a+.35);if(x>0&&x<1)sc+=s*Math.pow(1-x,2)}; pu(STAMP,.07); C.punch.forEach(b=>pu(A3+b.at,.04));
+  sc+=0.03*p(t,0,A2); $('cam').style.transform=`translate(${dx}px,${dy}px) scale(${sc})`;
+  $('prog').style.width=(t/D*1080)+'px';
+}
+window.render=render; window.DURATION=D; window.CUES=cues.sort((a,b)=>a.t-b.t);
+if(!location.search.includes('capture')){const s0=performance.now();(function L(){render(((performance.now()-s0)/1000)%(D+1));requestAnimationFrame(L)})()}else render(0);
+</script>

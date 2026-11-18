@@ -1,0 +1,101 @@
+<!doctype html><meta charset=utf-8>
+<style>
+@font-face{font-family:C;font-weight:600;src:url(cairo-arabic-600-normal.woff2)}
+@font-face{font-family:C;font-weight:800;src:url(cairo-arabic-800-normal.woff2)}
+@font-face{font-family:C;font-weight:900;src:url(cairo-arabic-900-normal.woff2)}
+@font-face{font-family:C;font-weight:600 800;src:url(cairo-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:C;font-weight:900;src:url(cairo-latin-900-normal.woff2);unicode-range:U+0000-00FF}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0E1A2E}
+#cam{position:absolute;inset:0;transform-origin:50% 50%}
+#st{position:absolute;inset:0;font-family:C,'Noto Color Emoji';direction:rtl;overflow:hidden;background:#0E1A2E}
+.cap{position:absolute;top:70px;left:50px;right:50px;text-align:center;color:#fff;font-weight:900;font-size:78px;line-height:1.3;z-index:5}
+.cap span{color:#FFD45C}
+.phone{position:absolute;top:330px;left:70px;right:70px;bottom:120px;border-radius:56px;overflow:hidden;background:#ECE5DD;box-shadow:0 30px 90px rgba(0,0,0,.5);border:10px solid #1B2433}
+.bar{position:absolute;top:0;left:0;right:0;height:150px;background:#1F3B5C;display:flex;align-items:center;gap:26px;padding:0 36px;color:#fff;z-index:3}
+.bar img{width:96px;height:96px}
+.bar b{display:block;font-size:40px;font-weight:800}
+.bar i{display:block;font-style:normal;font-size:28px;color:#BFD0E6;font-weight:600}
+.wall{position:absolute;inset:150px 0 0 0;background:#ECE5DD;background-image:radial-gradient(rgba(0,0,0,.035) 2px,transparent 2px);background-size:36px 36px}
+#log{position:absolute;left:0;right:0;bottom:30px;padding:0 30px}
+.m{max-width:80%;margin:16px 0;padding:18px 28px 14px;border-radius:26px;font-size:46px;line-height:1.5;font-weight:600;color:#1A1A1A;box-shadow:0 2px 2px rgba(0,0,0,.08);clear:both;transform-origin:bottom}
+.me{float:right;background:#D9FDD3;border-top-right-radius:6px}
+.of{float:left;background:#fff;border-top-left-radius:6px}
+.of.k{font-weight:800}
+.m small{display:block;text-align:left;font-size:24px;color:#8A9AA5;margin-top:4px;direction:ltr}
+.typing{float:left;background:#fff;border-radius:26px;padding:26px 34px;margin:16px 0;clear:both}
+.typing i{display:inline-block;width:18px;height:18px;border-radius:50%;background:#9AA5AE;margin:0 5px}
+.cf{clear:both}
+#end{position:absolute;inset:0;background:#13213A;display:none;z-index:20}
+#prog{position:absolute;top:0;right:0;height:10px;background:#25D366;z-index:99}
+.foot{position:absolute;bottom:40px;left:0;right:0;text-align:center;color:#8C9AB3;font-size:26px;font-weight:600;z-index:6}
+</style>
+<div id=cam><div id=st>
+<div class=cap id=cap>ابني بمدرسة عادية…<br><span>بيحقله مخصصات؟</span></div>
+<div class=phone><div class=bar><img src=lawyer.png><div><b>مكتب المحامي نمر مصالحة</b><i id=status>متصل</i></div></div>
+<div class=wall><div id=log></div></div></div>
+<div class=foot>محادثة توضيحية</div>
+<div id=end>
+  <div style="position:absolute;top:220px;width:100%;text-align:center"><img src=nm_mark.png style="width:260px"></div>
+  <div id=eq style="position:absolute;top:440px;left:70px;right:70px;text-align:center;color:#fff;font-weight:900;font-size:86px;line-height:1.35">ابنك عنده وحدة<br>من هالعلامات؟</div>
+  <div id=ep style="position:absolute;top:820px;width:100%;text-align:center"><img src=lawyer.png style="width:300px"></div>
+  <div id=ew style="position:absolute;top:1160px;width:100%;text-align:center;color:#FFD45C;font-weight:900;font-size:72px">ابعتلنا على الواتساب</div>
+  <div id=en style="position:absolute;top:1300px;width:100%;text-align:center"><span style="display:inline-block;background:#25D366;color:#fff;font-weight:900;font-size:88px;padding:8px 70px 22px;border-radius:999px;direction:ltr">054-334-5123</span></div>
+  <div id=ed style="position:absolute;top:1500px;left:80px;right:80px;text-align:center;color:#9EA9BE;font-size:29px;font-weight:600;line-height:1.6">المحامي نمر مصالحة · مكتب محاماة · دبورية<br>محادثة توضيحية. المعلومات عامة ولا تُعتبر استشارة قانونية.</div>
+</div>
+<div id=prog></div>
+</div></div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), p=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3), back=x=>{const c1=1.8,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+// [who, text, readTime]  typing shown before office msgs
+const M=[
+ ['me','مرحبا، ابني عمره 7 وبيتعلّم بمدرسة عادية',1.9],
+ ['me','سمعت إنه هيك ما إله حق بمخصصات من التأمين الوطني… صح؟',2.4],
+ ['of k','مش بالضرورة 👇',1.4],
+ ['of','نوع المدرسة وحده ما بيحدد. الأساس وضعه الطبي واحتياجاته اليومية.',2.8],
+ ['of k','في علامات ممكن تدل إنه مستحق:',1.6],
+ ['of','1️⃣ بيحتاج مساعدة أكثر من أولاد جيله بالأكل، اللبس، الحمام أو التنقّل',2.8],
+ ['of','2️⃣ بيحتاج إشراف أكثر من العادي عشان ما يتأذى',2.2],
+ ['of','3️⃣ علاج طبي ثابت أو متكرر',1.7],
+ ['of','4️⃣ توحّد أو تأخر بالنطق والتواصل',1.8],
+ ['of','5️⃣ ضعف سمع أو بصر، حتى مع سماعة أو نظارة',2.2],
+ ['me','والله ابني عنده 2 منهم 😮',1.8],
+ ['of k','مش شرط تكون كلها. كل ملف بينفحص لحاله 📂',2.6]];
+let t0=0.9, ev=[], cues=[];
+const hh=['21:04','21:04','21:05','21:05','21:05','21:05','21:06','21:06','21:06','21:06','21:07','21:07'];
+let html='';
+M.forEach(([w,txt,r],i)=>{
+  if(w.startsWith('of')&&(i===0||!M[i-1][0].startsWith('of'))){ev.push({type:'typing',a:t0,b:t0+1.0});cues.push({t:t0,k:'tick'});cues.push({t:t0+.35,k:'tick'});cues.push({t:t0+.7,k:'tick'});t0+=1.0;}
+  ev.push({type:'msg',i,a:t0}); cues.push({t:t0,k:'pop'});
+  html+=`<div class="m ${w}" id=m${i}>${txt}<small>${hh[i]}${w==='me'?' ✓✓':''}</small></div>`;
+  t0+=r;
+});
+html+=`<div class=typing id=typ><i></i><i></i><i></i></div><div class=cf></div>`;
+$('log').innerHTML=html;
+const END=t0+0.3, D=END+7.0;
+cues.push({t:END,k:'wipe'},{t:END+.2,k:'shimmer'},{t:END+1.4,k:'pop'},{t:END+2,k:'chime'});
+const DROP=ev.find(e=>e.type==='msg'&&e.i===2).a;
+cues.push({t:DROP,k:'impact'});
+// measure heights
+const H={}; M.forEach((m,i)=>{H[i]=$('m'+i).offsetHeight+16;});
+function render(t){
+  let shown=0; M.forEach((m,i)=>{const e=ev.find(x=>x.type==='msg'&&x.i===i); const el=$('m'+i);
+    if(t<e.a){el.style.display='none';}else{el.style.display='block';shown++;const x=p(t,e.a,e.a+.28);el.style.opacity=cl(x*2);el.style.transform=`scale(${.6+.4*back(x)})`;}});
+  const ty=ev.find(x=>x.type==='typing'&&t>=x.a&&t<x.b); const typ=$('typ');
+  typ.style.display=ty?'block':'none'; if(ty){[...typ.children].forEach((d,k)=>d.style.transform=`translateY(${-10*Math.max(0,Math.sin(t*9-k*.9))}px)`)}
+  $('status').textContent=ty?'عم يكتب…':'متصل';
+  // caption pulse in
+  {const x=p(t,0,.5);$('cap').style.opacity=cl(x*2);$('cap').style.transform=`scale(${1.5-.5*back(x)})`;}
+  // end card
+  const on=t>=END; $('end').style.display=on?'block':'none';
+  if(on){$('end').style.transform=`translateY(${(1-eo(p(t,END,END+.45)))*1920}px)`;
+    const f=(id,a)=>{const x=eo(p(t,END+a,END+a+.4));$(id).style.opacity=x;$(id).style.transform=`translateY(${(1-x)*50}px)`};
+    f('eq',.4);f('ep',.8);f('ew',1.2);{const x=p(t,END+1.4,END+1.8);$('en').style.opacity=cl(x*3);$('en').style.transform=`scale(${1.6-.6*back(x)})`;}f('ed',2);}
+  let sc=1;{const x=p(t,DROP,DROP+.35);if(x>0&&x<1)sc+=.035*Math.pow(1-x,2)} $('cam').style.transform=`scale(${sc})`;
+  $('prog').style.width=(t/D*1080)+'px';
+}
+window.render=render;window.DURATION=D;window.CUES=cues.sort((a,b)=>a.t-b.t);window.DROP=DROP;window.END=END;
+if(!location.search.includes('capture')){const s0=performance.now();(function L(){render(((performance.now()-s0)/1000)%(D+1));requestAnimationFrame(L)})()}else render(0);
+</script>
