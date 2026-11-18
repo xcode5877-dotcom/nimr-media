@@ -35,6 +35,11 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#0E1A2E}
 <div class=phone><div class=bar><img src=lawyer.png><div><b>مكتب المحامي نمر مصالحة</b><i id=status>متصل</i></div></div>
 <div class=wall><div id=log></div></div></div>
 <div class=foot>محادثة توضيحية</div>
+<div id=hook style="position:absolute;inset:0;z-index:15;background:rgba(10,18,32,.86);backdrop-filter:blur(6px)">
+  <div id=hk1 style="position:absolute;top:560px;left:40px;right:40px;text-align:center;color:#fff;font-weight:900;font-size:96px;line-height:1.25">ابنك بمدرسة عادية؟</div>
+  <div id=hk2 style="position:absolute;top:760px;left:30px;right:30px;text-align:center;font-weight:900;font-size:120px;line-height:1.2"><span style="background:#FFD45C;color:#0E1A2E;padding:0 34px 14px;border-radius:22px">لا تسحب!</span></div>
+  <div id=hk3 style="position:absolute;top:1010px;left:40px;right:40px;text-align:center;color:#fff;font-weight:800;font-size:72px;line-height:1.35">ممكن يكون إله حق<br>وإنت مش عارف 👇</div>
+</div>
 <div id=end>
   <div style="position:absolute;top:220px;width:100%;text-align:center"><img src=nm_mark.png style="width:260px"></div>
   <div id=eq style="position:absolute;top:440px;left:70px;right:70px;text-align:center;color:#fff;font-weight:900;font-size:86px;line-height:1.35">ابنك عنده وحدة<br>من هالعلامات؟</div>
@@ -63,7 +68,7 @@ const M=[
  ['of','5️⃣ ضعف سمع أو بصر، حتى مع سماعة أو نظارة',2.2],
  ['me','والله ابني عنده 2 منهم 😮',1.8],
  ['of k','مش شرط تكون كلها. كل ملف بينفحص لحاله 📂',2.6]];
-let t0=0.9, ev=[], cues=[];
+let t0=3.0, ev=[], cues=[];
 const hh=['21:04','21:04','21:05','21:05','21:05','21:05','21:06','21:06','21:06','21:06','21:07','21:07'];
 let html='';
 M.forEach(([w,txt,r],i)=>{
@@ -77,7 +82,7 @@ $('log').innerHTML=html;
 const END=t0+0.3, D=END+7.0;
 cues.push({t:END,k:'wipe'},{t:END+.2,k:'shimmer'},{t:END+1.4,k:'pop'},{t:END+2,k:'chime'});
 const DROP=ev.find(e=>e.type==='msg'&&e.i===2).a;
-cues.push({t:DROP,k:'impact'});
+cues.push({t:DROP,k:'impact'});cues.push({t:0,k:'impact'},{t:.55,k:'impact'},{t:1.2,k:'pop'},{t:2.6,k:'swoosh'});
 // measure heights
 const H={}; M.forEach((m,i)=>{H[i]=$('m'+i).offsetHeight+16;});
 function render(t){
@@ -87,13 +92,17 @@ function render(t){
   typ.style.display=ty?'block':'none'; if(ty){[...typ.children].forEach((d,k)=>d.style.transform=`translateY(${-10*Math.max(0,Math.sin(t*9-k*.9))}px)`)}
   $('status').textContent=ty?'عم يكتب…':'متصل';
   // caption pulse in
-  {const x=p(t,0,.5);$('cap').style.opacity=cl(x*2);$('cap').style.transform=`scale(${1.5-.5*back(x)})`;}
+  {const x=p(t,2.9,3.3);$('cap').style.opacity=cl(x*2);$('cap').style.transform=`scale(${1.5-.5*back(x)})`;}
+  {const h=$('hook');const o=1-p(t,2.6,2.95);h.style.display=o>0?'block':'none';h.style.opacity=o;
+   const sl=(id,a,from)=>{const x=p(t,a,a+.3);$(id).style.opacity=cl(x*3);$(id).style.transform=`scale(${from-(from-1)*back(x)})`};
+   sl('hk1',0,1.8); sl('hk2',.55,2.6); sl('hk3',1.2,1.5);
+   const sh=p(t,.55,.95); if(sh>0&&sh<1){$('hk2').style.transform+=` translate(${14*(1-sh)*Math.sin(t*90)}px,0)`}}
   // end card
   const on=t>=END; $('end').style.display=on?'block':'none';
   if(on){$('end').style.transform=`translateY(${(1-eo(p(t,END,END+.45)))*1920}px)`;
     const f=(id,a)=>{const x=eo(p(t,END+a,END+a+.4));$(id).style.opacity=x;$(id).style.transform=`translateY(${(1-x)*50}px)`};
     f('eq',.4);f('ep',.8);f('ew',1.2);{const x=p(t,END+1.4,END+1.8);$('en').style.opacity=cl(x*3);$('en').style.transform=`scale(${1.6-.6*back(x)})`;}f('ed',2);}
-  let sc=1;{const x=p(t,DROP,DROP+.35);if(x>0&&x<1)sc+=.035*Math.pow(1-x,2)} $('cam').style.transform=`scale(${sc})`;
+  let sc=1;{const y=p(t,.55,.9);if(y>0&&y<1)sc+=.06*Math.pow(1-y,2)}{const x=p(t,DROP,DROP+.35);if(x>0&&x<1)sc+=.035*Math.pow(1-x,2)} $('cam').style.transform=`scale(${sc})`;
   $('prog').style.width=(t/D*1080)+'px';
 }
 window.render=render;window.DURATION=D;window.CUES=cues.sort((a,b)=>a.t-b.t);window.DROP=DROP;window.END=END;
